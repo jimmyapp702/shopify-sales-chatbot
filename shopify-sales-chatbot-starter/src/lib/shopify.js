@@ -36,7 +36,11 @@ export async function getOrderStatus({ email, orderNumber }) {
 // Helper: Product search proxy
 export async function searchProducts(nlQuery) {
   try {
-    const resp = await fetch(`/api/search/products`, {
+    const base =
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+
+    const resp = await fetch(`${base}/api/search/products`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: nlQuery })
@@ -50,3 +54,4 @@ export async function searchProducts(nlQuery) {
     return 'Product search is having a moment—try again shortly.';
   }
 }
+
